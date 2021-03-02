@@ -11,6 +11,7 @@
     <modules>
         <module>dukes-resources</module>
         <module>dukes-store</module>
+        <module>entities</module>
     </modules>
     <name>Dukes forest</name>
     <properties>
