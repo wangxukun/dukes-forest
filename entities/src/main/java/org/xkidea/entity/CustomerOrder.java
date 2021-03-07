@@ -10,6 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "CUSTOMER_ORDER")
+// TODO NamedQueries
 public class CustomerOrder implements Serializable {
     private static final long serialVersionUID = 2227581004817459989L;
 

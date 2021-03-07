@@ -9,6 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "ORDER_STATUS")
+// TODO NamedQueries
 public class OrderStatus implements Serializable {
     private static final long serialVersionUID = 8625164415446262189L;
 
