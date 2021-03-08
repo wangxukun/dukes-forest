@@ -6,10 +6,9 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
-@Table(name = "GROUPS")
+@Table(name = "GROUPZ") // GROUPS change GROUPZ， GROUPS是mysql保留字
 // TODO @NamedQueries
 public class Groups implements Serializable {
 

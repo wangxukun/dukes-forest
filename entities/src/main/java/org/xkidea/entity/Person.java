@@ -10,10 +10,27 @@ import java.util.List;
 
 @Entity
 @Table(name = "PERSON")
-// TODO @NamedQueries
+@NamedQueries({
+        @NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p"),
+        @NamedQuery(name = "Person.findById", query = "SELECT p FROM Person p WHERE p.id = :id"),
+        @NamedQuery(name = "Person.findByFirstname", query = "SELECT p FROM Person p WHERE p.firstname = :firstname"),
+        @NamedQuery(name = "Person.findByLastname", query = "SELECT p FROM Person p WHERE p.lastname = :lastname"),
+        @NamedQuery(name = "Person.findByEmail", query = "SELECT p FROM Person p WHERE p.email = :email"),
+        @NamedQuery(name = "Person.findByAddress", query = "SELECT p FROM Person p WHERE p.address = :address"),
+        @NamedQuery(name = "Person.findByCity", query = "SELECT p FROM Person p WHERE p.city = :city")
+})
 public class Person implements Serializable {
 
     private static final long serialVersionUID = -8273379732498451012L;
+    /**
+     * @JoinTable : 指定关联的映射。 它应用于关联的拥有方。
+     * 联接表通常用于多对多和单向一对多关联的映射中。 它也可以用来映射双向多对一。
+     */
+    @JoinTable(name = "PERSON_GROUPZ", joinColumns = {
+            @JoinColumn(name = "EMAIL", referencedColumnName = "EMAIL")}, inverseJoinColumns = {
+            @JoinColumn(name = "GROUPZ_ID", referencedColumnName = "ID")})
+    @ManyToMany
+    protected List<Groups> groupsList;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -27,7 +44,7 @@ public class Person implements Serializable {
     @Size(min = 3, max = 100, message = "{person.lastname}")
     @Column(name = "LASTNAME")
     protected String lastname;
-    @Pattern(regexp = ".+@.+\\\\.[a-z]+", message = "{person.email}")
+    @Pattern(regexp = ".+@.+\\.[a-z]+", message = "{person.email}")
     @Size(min = 3, max = 45, message = "{person.email}")
     @Basic(optional = false)
     @Column(name = "EMAIL")
@@ -45,17 +62,6 @@ public class Person implements Serializable {
     @Column(name = "PASSWORD")
     protected String password;
 
-    /**
-     * @JoinTable : 指定关联的映射。 它应用于关联的拥有方。
-     * 联接表通常用于多对多和单向一对多关联的映射中。 它也可以用来映射双向多对一。
-     */
-    @JoinTable(
-            name               = "PERSON_GROUPS",
-            joinColumns        = @JoinColumn(name = "EMAIL",    referencedColumnName = "EMAIL"),
-            inverseJoinColumns = @JoinColumn(name = "GROUPS_ID",referencedColumnName = "ID")
-    )
-    @ManyToMany
-    protected List<Groups> groupsList;
 
     public Person() {
         this.groupsList = new ArrayList<>();
@@ -66,13 +72,20 @@ public class Person implements Serializable {
         this.groupsList = new ArrayList<>();
     }
 
-    public Person(Integer id, @Size(min = 3, max = 50, message = "{person.firstname}") String firstname, @Size(min = 3, max = 100, message = "{person.lastname}") String lastname, @Pattern(regexp = ".+@.+\\\\.[a-z]+", message = "{person.email}") @Size(min = 3, max = 45, message = "{person.email}") String email, @Size(min = 3, max = 45, message = "{person.address}") String address, @Size(min = 3, max = 45, message = "{person.city}") String city) {
+    public Person(Integer id,
+                  @Size(min = 3, max = 50, message = "{person.firstname}") String firstname,
+                  @Size(min = 3, max = 100, message = "{person.lastname}") String lastname,
+                  @Pattern(regexp = ".+@.+\\\\.[a-z]+", message = "{person.email}")
+                  @Size(min = 3, max = 45, message = "{person.email}") String email,
+                  @Size(min = 3, max = 45, message = "{person.address}") String address,
+                  @Size(min = 3, max = 45, message = "{person.city}") String city) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.address = address;
         this.city = city;
+        this.groupsList = new ArrayList<>();
     }
 
     public Integer getId() {

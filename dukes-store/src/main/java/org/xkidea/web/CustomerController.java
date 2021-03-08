@@ -31,4 +31,22 @@ public class CustomerController implements Serializable {
     private static final Logger logger = Logger.getLogger(CustomerController.class.getCanonicalName());
 
     private AbstractPaginationHelper pagination;
+    private int selectedItemIndex;
+
+    public CustomerController() {
+    }
+
+    public Customer getSelected() {
+        if (current == null) {
+            current = new Customer();
+            selectedItemIndex = -1;
+        }
+        return current;
+    }
+
+    private UserBean getFacade() {
+        return ejbFacade;
+    }
+
+    // TODO ... ...
 }
