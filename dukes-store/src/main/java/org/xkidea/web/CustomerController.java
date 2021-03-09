@@ -5,10 +5,12 @@ import org.xkidea.entity.Customer;
 import org.xkidea.entity.Person;
 import org.xkidea.qualifiers.LoggedIn;
 import org.xkidea.web.util.AbstractPaginationHelper;
+import org.xkidea.web.util.PageNavigation;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.model.DataModel;
+import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -48,5 +50,31 @@ public class CustomerController implements Serializable {
         return ejbFacade;
     }
 
-    // TODO ... ...
+    public AbstractPaginationHelper getPagination(){
+        if (pagination == null) {
+            pagination = new AbstractPaginationHelper(AbstractPaginationHelper.DEFAULT_SIZE) {
+                @Override
+                public int getItemCount() {
+                    return getFacade().count();
+                }
+
+                @Override
+                public DataModel createPageDataModel() {
+                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(),
+                        getPageFirstItem() + getPageSize()}));
+                    // return new ListDataModel(getFacade().findAll());
+                }
+            };
+        }
+        return pagination;
+    }
+
+    public PageNavigation prepareList(){
+        recreateModel();
+        return PageNavigation.LIST;
+    }
+
+    private void recreateModel() {
+        items = null;
+    }
 }

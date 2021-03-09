@@ -47,7 +47,7 @@ public class Person implements Serializable {
     @Pattern(regexp = ".+@.+\\.[a-z]+", message = "{person.email}")
     @Size(min = 3, max = 45, message = "{person.email}")
     @Basic(optional = false)
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL", unique = true)
     protected String email;
     @Basic(optional = false)
     @Size(min = 3, max = 45, message = "{person.address}")
