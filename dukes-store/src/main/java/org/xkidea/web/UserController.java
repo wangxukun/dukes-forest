@@ -8,13 +8,13 @@ import org.xkidea.web.util.JsfUtil;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.ws.rs.Produces;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -94,10 +94,9 @@ public class UserController implements Serializable {
         return ejbFacade;
     }
 
-    // TODO @Produces @LoggedIn
-    public @Produces
-    @LoggedIn
-    Person getAuthenticatedUser() {
+    // 生成器方法。利用生成器方法，可以注入非bean对象、运行时值可能改变的对象，以及需要定制初始化的对象。
+    public
+    @Produces @LoggedIn Person getAuthenticatedUser() {
         return user;
     }
 

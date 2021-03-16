@@ -32,8 +32,8 @@ public class CustomerController implements Serializable {
     private static final String BUNDLE = "bundles.Bundle";
     private static final long serialVersionUID = 1909923329155404223L;
 
-    // TODO @Inject ERROR!!!!!!!!!!!!!!!!!!!!!
-    //@Inject
+    // TODO @Inject
+    @Inject
     @LoggedIn
     Person authenticated;
     private Customer current;
@@ -57,6 +57,10 @@ public class CustomerController implements Serializable {
         return current;
     }
 
+    /**
+     * 获取注入的UserBean
+     * @return 注入的UserBean
+     */
     private UserBean getFacade() {
         return ejbFacade;
     }
@@ -97,6 +101,11 @@ public class CustomerController implements Serializable {
         return PageNavigation.CREATE;
     }
 
+    /**
+     * 判断Person的实体在数据库中是否已经存在。
+     * @param p　需要判断的实体
+     * @return
+     */
     private boolean isUserDuplicated(Person p) {
         return (getFacade().getUserByEmail(p.getEmail()) == null) ? false : true;
     }
